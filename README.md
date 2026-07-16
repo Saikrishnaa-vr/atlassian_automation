@@ -15,3 +15,6 @@ Features
 - User story generation
 - Jira ticket creation
 - Sprint planning
+
+
+# This is the demo project
