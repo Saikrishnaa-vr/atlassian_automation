@@ -24,6 +24,7 @@ from typing import Any, Callable, TypeVar
 
 from atlassian import Jira
 from loguru import logger
+from pydantic import HttpUrl, TypeAdapter
 from requests.exceptions import ConnectionError as RequestsConnectionError
 from requests.exceptions import HTTPError, RequestException, Timeout
 
@@ -104,6 +105,7 @@ class JiraService:
     def __init__(self, settings: Settings | None = None, client: Jira | None = None) -> None:
         self._settings: Settings = settings or get_settings()
         self._base_url: str = str(self._settings.jira.base_url).rstrip("/")
+        self._typed_base_url: HttpUrl = self._settings.jira.base_url
         self._client: Jira = client or self._build_client(self._settings)
 
     # -- Construction ------------------------------------------------------- #
@@ -141,7 +143,7 @@ class JiraService:
             log.bind(error_type=type(exc).__name__).warning("Jira health check failed")
             return JiraHealthResponse(
                 success=False,
-                base_url=self._base_url,
+                base_url=self._typed_base_url,
                 message=type(exc).__name__,
                 checked_at=self._now(),
             )
@@ -150,7 +152,7 @@ class JiraService:
         log.bind(account_id=account_id).info("Jira health check succeeded")
         return JiraHealthResponse(
             success=True,
-            base_url=self._base_url,
+            base_url=self._typed_base_url,
             account_id=account_id,
             checked_at=self._now(),
         )
@@ -353,6 +355,7 @@ class JiraService:
             status = fields.get("status", {}) or {}
             category = (status.get("statusCategory", {}) or {}).get("key", "undefined")
             key = str(data["key"])
+            issue_url = TypeAdapter(HttpUrl).validate_python(f"{self._base_url}/browse/{key}")
             return JiraIssueResponse(
                 id=str(data["id"]),
                 key=key,
@@ -371,7 +374,7 @@ class JiraService:
                 labels=tuple(fields.get("labels", []) or ()),
                 assignee=self._map_user(fields.get("assignee")),
                 reporter=self._map_user(fields.get("reporter")),
-                url=f"{self._base_url}/browse/{key}",
+                url=issue_url,
                 created=fields["created"],
                 updated=fields["updated"],
             )

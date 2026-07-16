@@ -21,41 +21,14 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import Enum
-from typing import Iterable
 
-from pydantic import BaseModel, ConfigDict, Field, computed_field, field_validator, model_validator
+from pydantic import Field, computed_field, field_validator, model_validator
 
-
-# --------------------------------------------------------------------------- #
-# Shared base + reusable validators
-# --------------------------------------------------------------------------- #
-class _DomainModel(BaseModel):
-    """Base for every task domain contract.
-
-    All models are immutable (``frozen``) and reject unknown fields
-    (``extra="forbid"``), so a contract mismatch fails loudly rather than
-    silently carrying untyped data through the application.
-    """
-
-    model_config = ConfigDict(frozen=True, extra="forbid")
-
-
-def _require_non_blank(value: str, *, field: str) -> str:
-    """Return the trimmed value, raising when it is empty or whitespace-only."""
-    cleaned = value.strip()
-    if not cleaned:
-        raise ValueError(f"{field} must not be blank")
-    return cleaned
-
-
-def _clean_unique_tokens(values: Iterable[str], *, field: str) -> tuple[str, ...]:
-    """Trim string tokens and reject blanks and duplicates, preserving order."""
-    cleaned = tuple(value.strip() for value in values)
-    if any(not value for value in cleaned):
-        raise ValueError(f"{field} must not contain blank entries")
-    if len(set(cleaned)) != len(cleaned):
-        raise ValueError(f"{field} must not contain duplicate entries")
-    return cleaned
+from src.schemas.base import (
+    DomainModel as _DomainModel,
+    clean_unique_tokens as _clean_unique_tokens,
+    require_non_blank as _require_non_blank,
+)
 
 
 # --------------------------------------------------------------------------- #

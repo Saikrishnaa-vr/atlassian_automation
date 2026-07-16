@@ -147,10 +147,10 @@ class Settings(BaseModel):
     later at runtime.
     """
 
-    app: AppSettings = Field(default_factory=AppSettings)
-    anthropic: AnthropicSettings = Field(default_factory=AnthropicSettings)
-    jira: JiraSettings = Field(default_factory=JiraSettings)
-    logging: LoggingSettings = Field(default_factory=LoggingSettings)
+    app: AppSettings = Field(default_factory=AppSettings)  # type: ignore[arg-type]
+    anthropic: AnthropicSettings = Field(default_factory=AnthropicSettings)  # type: ignore[arg-type]
+    jira: JiraSettings = Field(default_factory=JiraSettings)  # type: ignore[arg-type]
+    logging: LoggingSettings = Field(default_factory=LoggingSettings)  # type: ignore[arg-type]
 
     # -- Environment predicates -------------------------------------------- #
     @property

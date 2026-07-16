@@ -220,7 +220,7 @@ class AnthropicService:
 
         payload = self._build_payload(request, model)
         raw = self._call_with_retries(
-            lambda: self._client.messages.create(**payload),
+            lambda: self._client.messages.create(**payload),  # type: ignore[call-overload]
             log=log,
             operation="generate",
         )

@@ -165,6 +165,35 @@ def _configured_project_key(settings: Settings) -> str | None:
 	return None
 
 
+def _discover_project_key(service: Any) -> str | None:
+	"""Best-effort discovery of one readable Jira project key via SDK client."""
+	client = getattr(service, "_client", None)
+	if client is None:
+		return None
+
+	for method_name in ("projects", "get_all_projects", "get_projects"):
+		func = getattr(client, method_name, None)
+		if not callable(func):
+			continue
+		try:
+			payload = func()
+		except Exception:
+			continue
+
+		items: Any = payload
+		if isinstance(payload, dict):
+			items = payload.get("values") or payload.get("projects") or ()
+
+		if isinstance(items, list):
+			for item in items:
+				if isinstance(item, dict):
+					key = item.get("key")
+					if isinstance(key, str) and key.strip():
+						return key.strip()
+
+	return None
+
+
 def test_service_construction() -> None:
 	"""JiraService can be constructed with validated live configuration."""
 	_require_settings()
@@ -216,11 +245,14 @@ def test_project_lookup_if_configured(live_jira_service: Any) -> None:
 	settings = _require_settings()
 	project_key = _configured_project_key(settings)
 	if not project_key:
-		pytest.skip("Skipping live Jira project lookup: no project key configured")
+		project_key = _discover_project_key(live_jira_service)
+
+	assert isinstance(project_key, str)
+	assert project_key.strip()
 
 	methods = ["get_project", "get_project_by_key", "project", "lookup_project"]
 	try:
-		project = _call_first(live_jira_service, methods, project_key)
+		project = _call_first(live_jira_service, methods, project_key.strip())
 	except Exception as exc:
 		_skip_if_environmental(exc, "project lookup")
 		raise
