@@ -16,7 +16,7 @@ dependencies = [
     "langsmith>=0.10.5",
     "loguru>=0.7.3",
     "psycopg[binary]>=3.3.4",
-    "pydantic>=2.13.4",
+    "pydantic[email]>=2.13.4",
     "pydantic-settings>=2.14.2",
     "pymsteams>=0.2.5",
     "pytest>=9.1.1",
@@ -28,3 +28,6 @@ dependencies = [
     "sqlalchemy>=2.0.51",
     "uvicorn[standard]>=0.51.0",
 ]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]

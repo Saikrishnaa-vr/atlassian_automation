@@ -12,3 +12,4 @@ wheels/
 .idea/
 /.codemie/
 CLAUDE.md
+.local-project-status.md

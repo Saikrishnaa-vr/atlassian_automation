@@ -59,12 +59,22 @@ Create a `.env` file (it is gitignored) with:
 
 ```bash
 ANTHROPIC_API_KEY=...        # Claude access
-ATLASSIAN_EMAIL=...          # Jira account email
-ATLASSIAN_API_TOKEN=...      # Jira API token
-ATLASSIAN_BASE_URL=...       # e.g. https://your-org.atlassian.net
-TAVILY_API_KEY=...           # web-search access
+JIRA_EMAIL=...               # Jira account email
+JIRA_API_TOKEN=...           # Jira API token
+JIRA_BASE_URL=...            # e.g. https://your-org.atlassian.net
 ANTHROPIC_MODEL=claude-sonnet-5   # optional; defaults to claude-sonnet-5 in tests
 ```
+
+Additional optional settings currently implemented in `src/config.py`:
+
+```bash
+APP_NAME=atlassian-automation
+ENVIRONMENT=development
+REQUEST_TIMEOUT=30
+LOG_LEVEL=INFO
+```
+
+`TAVILY_API_KEY` is still part of the planned architecture, but it is not yet consumed by the implemented application config.
 
 To discover which Claude model ids are enabled for your key:
 
