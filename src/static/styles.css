@@ -1,0 +1,287 @@
+:root {
+  --bg-a: #f6f0df;
+  --bg-b: #d8eadc;
+  --ink: #1b2320;
+  --muted: #4f5b55;
+  --card: rgba(255, 255, 255, 0.78);
+  --stroke: rgba(27, 35, 32, 0.12);
+  --accent: #005a52;
+  --accent-2: #be3a34;
+  --ok: #1f7a4f;
+  --warn: #9f6428;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: radial-gradient(circle at 15% 20%, #fff6de 0%, transparent 32%),
+              radial-gradient(circle at 80% 10%, #e2f8e7 0%, transparent 28%),
+              linear-gradient(135deg, var(--bg-a), var(--bg-b));
+  min-height: 100vh;
+}
+
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 16px 42px;
+  display: grid;
+  gap: 16px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  border-radius: 16px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 24px rgba(16, 23, 19, 0.08);
+}
+
+.hero {
+  padding: 22px;
+  animation: slide-up 400ms ease-out;
+}
+
+.eyebrow {
+  margin: 0;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+h1, h2 {
+  margin: 8px 0 10px;
+  font-family: "Fraunces", "Georgia", serif;
+}
+
+h1 {
+  font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+}
+
+h2 {
+  font-size: 1.35rem;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--muted);
+}
+
+.status-row {
+  margin-top: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #6a7270;
+}
+
+.dot.ok {
+  background: var(--ok);
+}
+
+.dot.fail {
+  background: var(--accent-2);
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(300px, 390px) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.control-stack {
+  position: sticky;
+  top: 12px;
+  display: grid;
+  gap: 16px;
+}
+
+.form-card,
+.workflow-card,
+.output-card {
+  padding: 18px;
+  animation: slide-up 500ms ease-out;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
+}
+
+input,
+textarea {
+  width: 100%;
+  border: 1px solid rgba(27, 35, 32, 0.2);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+button {
+  border: none;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #ffffff;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform 150ms ease, opacity 150ms ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+button.ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid rgba(27, 35, 32, 0.24);
+}
+
+button.approve {
+  background: var(--ok);
+}
+
+button.reject {
+  background: var(--accent-2);
+}
+
+.id-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: end;
+}
+
+.id-row label {
+  grid-column: 1 / -1;
+}
+
+.approval-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 14px;
+}
+
+.summary {
+  border: 1px dashed rgba(27, 35, 32, 0.24);
+  border-radius: 12px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--muted);
+}
+
+.output-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.output-card {
+  min-height: 620px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+pre {
+  margin: 0;
+  max-height: calc(100vh - 240px);
+  min-height: 440px;
+  overflow: auto;
+  background: #10201d;
+  color: #e4f2ed;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.bg-orb {
+  position: fixed;
+  border-radius: 999px;
+  filter: blur(26px);
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+.orb-a {
+  width: 260px;
+  height: 260px;
+  background: #ffd18a;
+  top: -90px;
+  right: -60px;
+}
+
+.orb-b {
+  width: 280px;
+  height: 280px;
+  background: #77d1bb;
+  bottom: -100px;
+  left: -90px;
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 860px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .control-stack {
+    position: static;
+  }
+
+  .output-card {
+    min-height: auto;
+  }
+
+  pre {
+    min-height: 300px;
+    max-height: 55vh;
+  }
+
+  .page {
+    padding: 16px 12px 28px;
+  }
+}

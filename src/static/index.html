@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Sprint Planner UI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="bg-orb orb-a"></div>
+  <div class="bg-orb orb-b"></div>
+
+  <main class="page">
+    <header class="hero card">
+      <p class="eyebrow">AI Sprint Planner</p>
+      <h1>Requirement to Jira, without Postman</h1>
+      <p class="subtitle">
+        Submit a requirement, review generated stories, then approve or reject.
+        Jira issues are created only after explicit approval.
+      </p>
+      <div class="status-row">
+        <span class="dot" id="api-dot"></span>
+        <span id="api-status">API status: unknown</span>
+      </div>
+    </header>
+
+    <section class="workspace">
+      <aside class="control-stack">
+        <article class="card form-card">
+          <h2>1) Submit Requirement</h2>
+          <form id="requirement-form">
+            <label for="api-base">API base URL</label>
+            <input id="api-base" type="text" value="" placeholder="Leave blank for same origin" />
+
+            <label for="project-key">Project key</label>
+            <input id="project-key" type="text" placeholder="ATLAS" required />
+
+            <label for="requirement">Requirement</label>
+            <textarea id="requirement" rows="6" required placeholder="Describe the feature, behavior, and constraints."></textarea>
+
+            <button type="submit" id="submit-btn">Submit Requirement</button>
+          </form>
+        </article>
+
+        <article class="card workflow-card">
+          <h2>2) Workflow Control</h2>
+
+          <div class="id-row">
+            <label for="workflow-id">Workflow ID</label>
+            <input id="workflow-id" type="text" placeholder="auto-filled after submit" />
+            <button id="refresh-btn" class="ghost">Refresh</button>
+          </div>
+
+          <div class="approval-actions">
+            <button data-approval="approved" class="approve">Approve</button>
+            <button data-approval="rejected" class="reject">Reject</button>
+            <button data-approval="pending" class="ghost">Set Pending</button>
+          </div>
+
+          <div id="workflow-summary" class="summary">
+            <p>No workflow loaded yet.</p>
+          </div>
+        </article>
+      </aside>
+
+      <section class="card output-card">
+        <div class="output-header">
+          <h2>3) Result Viewer</h2>
+          <button id="copy-json" class="ghost">Copy JSON</button>
+        </div>
+        <pre id="output">Submit a requirement to see response payloads here.</pre>
+      </section>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
